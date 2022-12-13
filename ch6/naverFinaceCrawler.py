@@ -32,7 +32,12 @@ def get_company_stockPage(company_url):
     return company_stockPage
 
 # 검색한 기업의 페이지에서 현재 주가 데이터 크롤링
-
+def get_price(company_url) :
+    company_stockPage = get_company_stockPage(company_url)
+    no_today = company_stockPage.find("p", {"class" : {"no_today"}})
+    blind = no_today.find("span", {"class" : "blind"})
+    now_price = blind.text
+    return now_price
 
 def main() :
     top100_url = []
@@ -47,8 +52,8 @@ def main() :
     if company == 100 :
         print("입력한 기업은 상위 100 목록에 없습니다.")
     else :
-        print("!")
-        #가격 얻어오는 코드
+        now_price = get_price(company)
+        print(now_price)
 
 if __name__ == "__main__" :
     main()
